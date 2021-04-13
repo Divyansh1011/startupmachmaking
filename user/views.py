@@ -7,8 +7,8 @@ from django.contrib.auth import authenticate, login, logout
 def account(request):
     return HttpResponse('Hello from accounts page')
 
-def login(request):
-    return HttpResponse('Hello from login page')
+def usrlogin(request):
+    return render(request, 'user/login.html')
 
 def logout(request):
     return HttpResponse('Hello from logout page')
@@ -26,7 +26,7 @@ def signup(request):
             return redirect(signup)
         if password != conf_password:
             return redirect(signup)
-        new_user = authenticate(email=email, username=username, password=conf_password)
+        new_user = authenticate(email=email, username=username, password=conf_password, first_name=f_name, last_name=l_name, is_startup_founder=is_sf)
         login(request, new_user)
         
-    return HttpResponse('Hello from signup page')
+    return render(request, 'user/registration.html')

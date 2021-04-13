@@ -18,27 +18,31 @@
 			<div class="form-left">
 				<img src="{% static 'images/form-v6.jpg' %}" alt="form">
 			</div>
-			<form class="form-detail" action="#" method="post">
+			<form class="form-detail" action="signup" method="post">
                 {% csrf_token %}
 				<h2>Register Form</h2>
 				<div class="form-row">
-					<input type="text" name="first-name" id="first-name" class="input-text" placeholder="First Name" required>
+					<input type="text" id="first-name" name="f_name" class="input-text" placeholder="First Name" required>
 				</div>
                 <div class="form-row">
-					<input type="text" name="last-name" id="last-name" class="input-text" placeholder="Last Name" required>
+					<input type="text id="last-name" name="l_name" class="input-text" placeholder="Last Name" required>
 				</div>
                 <div class="form-row">
-					<input type="text" name="user-name" id="user-name" class="input-text" placeholder="User Name" required>
+					<input type="text id="user-name" name="username" class="input-text" placeholder="User Name" required>
 				</div>
 
 				<div class="form-row">
-					<input type="text" name="your-email" id="your-email" class="input-text" placeholder="Email Address" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+					<input type="text" name="email" id="your-email" class="input-text" placeholder="Email Address" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+				</div>
+				<div style="color:black;"> Are ytou a Startup/ Founder?
+				<input type="checkbox" name="is_sf">
+				</div>
+						
+				<div class="form-row">
+					<input type="password"  name="pass" id="password" class="input-text" placeholder="Password" required>
 				</div>
 				<div class="form-row">
-					<input type="password" name="password" id="password" class="input-text" placeholder="Password" required>
-				</div>
-				<div class="form-row">
-					<input type="password" name="comfirm-password" id="comfirm-password" class="input-text" placeholder="Comfirm Password" required>
+					<input type="password" name="conf_pass" id="comfirm-password" class="input-text" placeholder="Comfirm Password" required>
 				</div>
 				<div class="form-row-last">
 					<input type="submit" name="register" class="register" value="Register">
