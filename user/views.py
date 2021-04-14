@@ -1,32 +1,53 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
+from .forms import SignupForm, LoginForm
 from django.contrib.auth import authenticate, login, logout
 
 
 # Create your views here.
 def account(request):
-    return HttpResponse('Hello from accounts page')
+    return render(request, 'user/account.html')
 
 def usrlogin(request):
-    return render(request, 'user/login.html')
+    context = {}
+    if request.user.is_authenticated:
+        return redirect('account')
+    if request.POST:
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = request.POST['email']
+            password = request.POST['password']
+            user = authenticate(email=email, password=password)
+            if user:
+                login(request, user)
+                return redirect('account')
+        else:
+            context['login_form'] = form
+    else:
+        form = LoginForm()
+        context['login_form'] = form
+    return render(request, 'user/login.html', context)
 
-def logout(request):
-    return HttpResponse('Hello from logout page')
+def usrlogout(request):
+    logout(request)
+    return redirect('account')
 
 def signup(request):
-    if request.method=='POST':
-        email = request.POST['email']
-        username = request.POST['username']
-        f_name = request.POST['f_name']
-        l_name = request.POST['l_name']
-        is_sf = request.POST['is_sf']
-        password = request.POST['pass']
-        conf_password = request.POST['conf_pass']
-        if len(username) < 3:
-            return redirect(signup)
-        if password != conf_password:
-            return redirect(signup)
-        new_user = authenticate(email=email, username=username, password=conf_password, first_name=f_name, last_name=l_name, is_startup_founder=is_sf)
-        login(request, new_user)
-        
-    return render(request, 'user/registration.html')
+    context = {}
+    if request.user.is_authenticated:
+        return redirect('account')
+    if request.POST:
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data.get('email')
+            raw_pass = form.cleaned_data.get('password1')
+            new_account = authenticate(email=email, password=raw_pass)
+            login(request, new_account)
+            return redirect(account)
+        else:
+            context['signup_form'] = form
+    else:
+        form = SignupForm()
+        context['signup_form'] = form
+    return render(request, 'user/signup.html', context)
