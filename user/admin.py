@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User
+from .models import User, Portfolio, Resume, Skill, Job, Education, Accomplishments
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 class MyUserAdmin(UserAdmin):
@@ -11,5 +11,10 @@ class MyUserAdmin(UserAdmin):
     list_filter = ()
     fieldsets = ()
 
-
 admin.site.register(User, MyUserAdmin)
+admin.site.register(Portfolio)
+admin.site.register(Resume)
+admin.site.register(Skill)
+admin.site.register(Job)
+admin.site.register(Education)
+admin.site.register(Accomplishments)

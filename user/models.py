@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.db.models.deletion import CASCADE
+from django.db.models.enums import Choices
 # Create your models here.
 
 class MyUserManager(BaseUserManager):
@@ -63,3 +65,64 @@ class User(AbstractBaseUser):
     
     def has_module_perms(self, app_label):
         return True
+
+class Resume(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    desc = models.CharField(max_length=1000)
+    avatar = models.ImageField(upload_to="image/user/avatar", null=True)
+    phn_no  = models.BigIntegerField(unique=True)
+    primary_city = models.CharField(max_length=100)
+    secondary_city = models.CharField(max_length=100)
+    def __str__(self):
+        return self.user.username
+
+class Education(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.BooleanField()
+    college = models.CharField(max_length=255)
+    start_year = models.IntegerField()
+    end_year = models.IntegerField()
+    stream = models.CharField(max_length=255)
+    def __str__(self):
+        return self.user.username
+
+class Job(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.CharField(max_length=255)
+    organization = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    job_desc = models.CharField(max_length=1000)
+    def __str__(self):
+        return self.user.username
+
+class Skill(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    LEVEL_CHOICES =(
+    ("Beginer", "Beginer"),
+    ("Intermidiate", "Intermidiate"),
+    ("Advanced", "Advanced"),
+    )
+
+    skill_name = models.CharField(max_length=255)
+    skill_level = models.CharField(choices=LEVEL_CHOICES, max_length=255)
+    def __str__(self):
+        return self.user.username
+
+class Portfolio(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    proj_name = models.CharField(max_length=255)
+    link = models.CharField(max_length=1250)
+    proj_desc = models.CharField(max_length=1000)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    def __str__(self):
+        return self.user.username
+
+class Accomplishments(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    desc = models.CharField(max_length=1000)
+    def __str__(self):
+        return self.user.username
+    

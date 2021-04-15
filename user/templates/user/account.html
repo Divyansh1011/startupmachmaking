@@ -1,18 +1,30 @@
-{% extends 'base.html' %}
-
-{% block title %}Account{% endblock title %}
-
-{% block body %}
-
+{% extends 'base.html' %} {% block title %}Account{% endblock title %} {% block
+body %}
 
 <div class="container">
-
-    {% if request.user.is_authenticated %}
-    <h1 class="my-3">Hello, {{request.user.username}}</h1>
-    {% else %}
-    <h1 class="my-3">Please Login or Signup</h1>
-    {% endif %}
-    
+  {% if request.user.is_authenticated %}
+  <h1 class="my-3">Hello, {{request.user.username}}</h1>
+  {% else %}
+  <h1 class="my-3">Please Login or Signup</h1>
+  {% endif %}
+  <p>{{request.user.email}}</p>
+  <p>{{resume.desc}}</p>
+  <p>{{resume.phn_no}}</p>
+  <p>{{resume.primary_city}}</p>
+  <p>{{resume.secondary_city}}</p>
+  <h1>Skills</h1>
+  {% for skill in skills %}
+  <p>{{skill.skill_name}}</p>
+  <p>{{skill.skill_level}}</p>
+  {% endfor %}
+  <h1>Education</h1>
+  {% for edu in educations %}
+  <p>{{edu.status}}</p>
+  <p>{{edu.college}}</p>
+  <p>{{edu.start_year}}</p>
+  <p>{{edu.end_year}}</p>
+  <p>{{edu.stream}}</p>
+  {% endfor %}
 </div>
 
 {% endblock body %}
