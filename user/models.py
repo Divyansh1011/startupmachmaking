@@ -66,6 +66,7 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
+
 class Resume(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     desc = models.CharField(max_length=1000)
@@ -126,3 +127,10 @@ class Accomplishments(models.Model):
     def __str__(self):
         return self.user.username
     
+class Company(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    company_name = models.CharField(max_length=256)
+    company_desc = models.CharField(max_length=2000)
+    company_logo = models.ImageField(upload_to="image/company/logo", null=True)
+    person_status = models.BooleanField(default=False)
+    company_website = models.CharField(blank=True, max_length=1000)
