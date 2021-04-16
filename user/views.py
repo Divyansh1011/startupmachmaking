@@ -8,14 +8,16 @@ from .models import User, Portfolio, Resume, Skill, Job, Education, Accomplishme
 # Create your views here.
 def account(request):
     if request.user.is_authenticated:
-        context = {}
-        resume = Resume.objects.get(user=request.user)
-        skill = Skill.objects.filter(user=request.user)
-        education = Education.objects.filter(user=request.user)
-        job = Job.objects.filter(user=request.user)
-        portfolio = Portfolio.objects.filter(user=request.user)
-        accomplishments = Accomplishments.objects.filter(user=request.user)
-        context = {'resume': resume, 'skills': skill, 'educations': education, 'jobs': job, 'portfolios': portfolio, 'accomps': accomplishments}
+        try:
+            resume = Resume.objects.get(user=request.user)
+            skill = Skill.objects.filter(user=request.user)
+            education = Education.objects.filter(user=request.user)
+            job = Job.objects.filter(user=request.user)
+            portfolio = Portfolio.objects.filter(user=request.user)
+            accomplishments = Accomplishments.objects.filter(user=request.user)
+            context = {'resume': resume, 'skills': skill, 'educations': education, 'jobs': job, 'portfolios': portfolio, 'accomps': accomplishments}
+        except:
+            context = {}
         if request.user.is_startup_founder:
             if request.POST:
                 comp_name = request.POST['comp_name']

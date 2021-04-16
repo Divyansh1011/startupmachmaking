@@ -6,6 +6,7 @@
 <div class="container">
   {% if request.user.is_authenticated %}
 
+{% if request.user.is_startup_founder %}
 {% if company %}
 
 Loaded dashboard
@@ -32,7 +33,14 @@ Loaded dashboard
 <button class="btn btn-primary" type="submit">Submit</button>
 </form>
 {% endif %}
+{% else %}
+{% if resume %}
+loded dashboard for employee
+{% else %}
+resume form
+{% endif %}
 
+{% endif %}
 
   {% endif %}
 </div>
