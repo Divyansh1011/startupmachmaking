@@ -10,7 +10,6 @@ def account(request):
     if request.user.is_authenticated:
         context = {}
         resume = Resume.objects.get(user=request.user)
-        
         skill = Skill.objects.filter(user=request.user)
         education = Education.objects.filter(user=request.user)
         job = Job.objects.filter(user=request.user)
@@ -18,8 +17,20 @@ def account(request):
         accomplishments = Accomplishments.objects.filter(user=request.user)
         context = {'resume': resume, 'skills': skill, 'educations': education, 'jobs': job, 'portfolios': portfolio, 'accomps': accomplishments}
         if request.user.is_startup_founder:
-            company = Company.objects.get(user=request.user)
-            context = {'resume': resume, 'company':company}
+            if request.POST:
+                comp_name = request.POST['comp_name']
+                comp_desc = request.POST['comp_desc']
+                comp_logo = request.POST['comp_logo']
+                comp_website = request.POST['comp_website']
+                new_company = Company(user=request.user, company_name=comp_name, company_desc=comp_desc, company_logo=comp_logo, company_website=comp_website)
+                new_company.save()
+                return redirect('account')
+            
+            try:
+                company = Company.objects.get(user=request.user)
+                context = {'company':company}
+            except:
+                context = {}
     
         return render(request, 'user/account.html', context)
     return redirect('login')
@@ -60,7 +71,7 @@ def signup(request):
             raw_pass = form.cleaned_data.get('password1')
             new_account = authenticate(email=email, password=raw_pass)
             login(request, new_account)
-            return redirect(account)
+            return redirect('account')
         else:
             context['signup_form'] = form
     else:

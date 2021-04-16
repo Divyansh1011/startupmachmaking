@@ -101,7 +101,7 @@ class Job(models.Model):
 class Skill(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     LEVEL_CHOICES =(
-    ("Beginer", "Beginer"),
+    ("Beginer", "Beginer"),    
     ("Intermidiate", "Intermidiate"),
     ("Advanced", "Advanced"),
     )
@@ -126,11 +126,14 @@ class Accomplishments(models.Model):
     desc = models.CharField(max_length=1000)
     def __str__(self):
         return self.user.username
-    
+
 class Company(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     company_name = models.CharField(max_length=256)
     company_desc = models.CharField(max_length=2000)
     company_logo = models.ImageField(upload_to="image/company/logo", null=True)
-    person_status = models.BooleanField(default=False)
     company_website = models.CharField(blank=True, max_length=1000)
+
+    def __str__(self):
+        return self.company_name
+    

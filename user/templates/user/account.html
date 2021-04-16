@@ -5,57 +5,35 @@
 
 <div class="container">
   {% if request.user.is_authenticated %}
-        <h1 class="my-3">Hello, {{request.user.username}}</h1>
-        <img src="/media/{{resume.avatar}}" alt="">
-  {% if request.user.is_startup_founder %}
-        <h1>Company Details</h1>
-        <p>{{company.company_name}}</p>
-        <img src="/media/{{company.company_logo}}" alt="">
-        <p>{{company.company_desc}}</p>
-        <p>{{company.company_website}}</p>
-  {% else %}
-        <p>{{request.user.email}}</p>
-        <p>{{resume.desc}}</p>
-        <p>{{resume.phn_no}}</p>
-        <p>{{resume.primary_city}}</p>
-        <p>{{resume.secondary_city}}</p>
-        <h1>Skills</h1>
-  {% for skill in skills %}
-  <p>{{skill.skill_name}}</p>
-  <p>{{skill.skill_level}}</p>
-  {% endfor %}
-  <h1>Education</h1>
-  {% for edu in educations %}
-  <p>{{edu.status}}</p>
-  <p>{{edu.college}}</p>
-  <p>{{edu.start_year}}</p>
-  <p>{{edu.end_year}}</p>
-  <p>{{edu.stream}}</p>
-  {% endfor %}
-  <h1>Jobs</h1>
-  {% for job in jobs %}
-  <p>{{job.profile}}</p>
-  <p>{{job.organization}}</p>
-  <p>{{job.location}}</p>
-  <p>{{job.start_date}}</p>
-  <p>{{job.end_date}}</p>
-  <p>{{job.job_desc}}</p>
-  {% endfor %}
-  <h1>Portfolio</h1>
-  {% for port in portfolios %}
-  <p>{{port.proj_name}}</p>
-  <p>{{port.link}}</p>
-  <p>{{port.proj_desc}}</p>
-  <p>{{port.start_date}}</p>
-  <p>{{port.end_date}}</p>
-  {% endfor %}
-  <h1>Accomplishments</h1>
-  {% for acomp in accomps %}
-  <p>{{acomp.desc}}</p>
-  {% endfor %}
-  {% endif %}
-  {% else %}
-  <h1 class="my-3">Please Login or Signup</h1>
+
+{% if company %}
+
+Loaded dashboard
+{% else %}
+<h1 class="my-5">Company Details Form</h1>
+<form action="{% url 'account' %}" method='POST'>
+{% csrf_token %}
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" name="comp_name" id="floatingInput" placeholder="Company Name" required>
+  <label for="floatingInput">Company Name</label>
+</div>
+<div class="form-floating mb-3">
+  <input type="textarea" class="form-control" name="comp_desc" id="floatingInput" placeholder="Company Description" required>
+  <label for="floatingInput">Company Description</label>
+</div>
+<div class="input-group mb-3">
+  <label class="input-group-text" for="inputGroupFile01">Company Logo</label>
+  <input type="file" class="form-control" id="inputGroupFile01" name="comp_logo" required>
+</div>
+<div class="form-floating mb-3">
+  <input type="text" class="form-control" name="comp_website" id="floatingInput" placeholder="Company Website" required>
+  <label for="floatingInput">Company Website</label>
+</div>
+<button class="btn btn-primary" type="submit">Submit</button>
+</form>
+{% endif %}
+
+
   {% endif %}
 </div>
 
